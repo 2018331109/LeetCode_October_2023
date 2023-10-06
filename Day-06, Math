@@ -1,0 +1,35 @@
+343. Integer Break
+
+STATEMENT
+Given an integer n, break it into the sum of k positive integers, where k >= 2, and 
+maximize the product of those integers. Return the maximum product you can get.
+
+SOLUTION
+
+PYTHON
+class Solution:
+    def integerBreak(self, n: int) -> int:
+        
+        if n==2:
+            return 1
+        if n==3:
+            return 2
+        
+        cnt=n//3
+        r=n%3
+        l=1
+        if r==1:
+            cnt-=1
+            r+=1
+            l=2
+
+        ans=l
+        for i in range(cnt):
+            ans*=3
+        
+        if r>0:
+            ans*=r
+        
+        
+        return ans
+
