@@ -1,0 +1,44 @@
+2009. Minimum Number of Operations to Make Array Continuous
+
+STATEMENT
+You are given an integer array nums. In one operation, you can replace any element in nums with any integer.
+nums is considered continuous if both of the following conditions are fulfilled:
+    All elements in nums are unique.
+    The difference between the maximum element and the minimum element in nums equals nums.length - 1.
+
+SOLUTION
+
+C++
+class Solution
+{
+public:
+    int minOperations(vector<int>& nums)
+    {
+        int n=nums.size()-1;
+        
+        sort(nums.begin(), nums.end());
+        
+        int len=unique(nums.begin(), nums.end())-nums.begin();
+        int l=0, r=0, ans=1;
+        while(r<len)
+        {
+            if(l==r)
+            {
+                r++;
+            }
+            else if(nums[r]-nums[l] > n)
+            {
+                l++;
+            }
+            else
+            {
+                ans=max(ans, r-l+1);
+                r++;
+            }
+        }
+        
+        return n-ans+1;
+
+    }
+};
+
