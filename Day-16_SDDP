@@ -1,0 +1,57 @@
+119. Pascal's Triangle II
+
+STATEMENT
+Given an integer rowIndex, return the rowIndexth (0-indexed) row of the Pascal's triangle.
+
+SOLUTION
+
+PYTHON
+from typing import List
+
+class Solution:
+    def getRow(self, rowIndex: int) -> List[int]:
+        n = rowIndex
+        v = [(n + 1) * [1] for _ in range(n + 1)]
+
+
+        for i in range(2, n + 1):
+            for j in range(1, i):
+                v[i][j] = v[i - 1][j] + v[i - 1][j - 1]
+
+        return v[n]
+
+C++
+class Solution
+{
+public:
+    vector<int> getRow(int rowIndex)
+    {
+        int n=rowIndex;
+        vector<vector<int>>v(n+1);
+
+        for (int i = 0; i <= n; i++)
+        {
+            v[i].resize(i + 1, 1);  // Initialize each row with 1s.
+        }
+        for(int i=2; i<n+1; i++)
+        {
+            
+
+            for(int j=1; j<i; j++)
+            {
+                v[i][j]=(v[i-1][j]+v[i-1][j-1]);
+            }
+
+            
+        }
+        for(auto it:v[n])
+        {
+            cout<<it<<" ";
+        }
+        cout<<endl;
+        return v[n];
+
+
+    }
+};
+
