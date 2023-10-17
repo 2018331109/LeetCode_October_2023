@@ -1,0 +1,114 @@
+1361. Validate Binary Tree Nodes
+
+STATEMENT
+You have n binary tree nodes numbered from 0 to n - 1 where node i has two children leftChild[i] and rightChild[i], 
+return true if and only if all the given nodes form exactly one valid binary tree.
+If node i has no left child then leftChild[i] will equal -1, similarly for the right child.
+Note that the nodes have no values and that we only use the node numbers in this problem.
+
+SOLUTION
+
+C++
+class Solution
+{
+public:
+    bool validateBinaryTreeNodes(int n, vector<int>& leftChild, vector<int>& rightChild)
+    {
+        //checking unique parent
+        vector<int>parents(n, -1);
+        //check for leftchilds
+        for(int i=0; i<n; i++)
+        {
+            if(leftChild[i]!=-1)
+            {
+                if(parents[leftChild[i]]==-1)
+                {
+                    parents[leftChild[i]]=i;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+        }
+
+        //check for rightchilds
+        for(int i=0; i<n; i++)
+        {
+            if(rightChild[i]!=-1)
+            {
+                if(parents[rightChild[i]]==-1)
+                {
+                    parents[rightChild[i]]=i;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+        }
+
+        //finding the validity of root
+
+        int root=-1;
+        for(int i=0; i<n; i++)
+        {
+            if(parents[i]==-1)
+            {
+                if(root==-1)
+                {
+                    root=i;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+        }
+        if(root==-1)
+        {
+            return false;
+        }
+
+        //cycle detection using bfs
+
+        unordered_set<int>st;
+        queue<int>q;
+
+        q.push(root);
+        while(!q.empty())
+        {
+            int node=q.front();
+            q.pop();
+            if(st.find(node)!=st.end())
+            {
+                return false;
+            }
+            else
+            {
+                st.insert(node);
+                if(leftChild[node]!=-1)
+                {
+                    q.push(leftChild[node]);
+                }
+                if(rightChild[node]!=-1)
+                {
+                    q.push(rightChild[node]);
+                }
+            }
+        }
+
+        //checking completeness
+
+        if(st.size()!=n)
+        {
+            return false;
+        }
+
+        //final decision
+
+        return true;
+
+
+    }
+};
