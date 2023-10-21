@@ -1,0 +1,46 @@
+1425. Constrained Subsequence Sum
+
+STATAMENT
+Given an integer array nums and an integer k, return the maximum sum of a non-empty subsequence of that array 
+such that for every two consecutive integers in the subsequence, nums[i] and nums[j], where i < j, 
+the condition j - i <= k is satisfied.
+A subsequence of an array is obtained by deleting some number of elements (can be zero) from the array, 
+leaving the remaining elements in their original order.
+
+SOLUTION
+
+C++
+class Solution
+{
+public:
+    int constrainedSubsetSum(vector<int>& nums, int k)
+    {
+        deque<int>dq;
+
+        int n=nums.size();
+        int res=INT_MIN;;
+        for(int i=0; i<n; i++)
+        {
+            nums[i]+=!dq.empty() ? nums[dq.front()] : 0;
+            res=max(res, nums[i]);
+
+            while(!dq.empty() && (i-dq.front()>=k || nums[i]>=nums[dq.back()]))
+            {
+                if(nums[i] >= nums[dq.back()])
+                {
+                    dq.pop_back();
+                }
+                else
+                {
+                    dq.pop_front();
+                }
+            }
+            if(nums[i]>0)
+            {
+                dq.push_back(i);
+            }
+        }
+
+        return res;
+    }
+};
