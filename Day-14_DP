@@ -1,0 +1,46 @@
+2742. Painting the Walls
+
+STATEMENT
+You are given two 0-indexed integer arrays, cost and time, of size n representing the costs and the time taken 
+to paint n different walls respectively. There are two painters available:
+    A paid painter that paints the ith wall in time[i] units of time and takes cost[i] units of money.
+    A free painter that paints any wall in 1 unit of time at a cost of 0. But the free painter can only be used 
+    if the paid painter is already occupied.
+Return the minimum amount of money required to paint the n walls.
+
+SOLUTION
+
+C++
+class Solution
+{
+public:
+
+
+    int solve(vector<int>& cost, vector<int>& time, int index, int remain, vector<vector<int>>& dp)
+    {
+        if(remain<=0)
+        {
+            return 0;
+        }
+        if(index>=cost.size())
+        {
+            return 1e9+7;
+        }
+        if(dp[index][remain] != -1)
+        {
+            return dp[index][remain];
+        }
+
+        int taken=cost[index]+solve(cost, time, index+1, remain-time[index]-1, dp);
+        int skipped=solve(cost, time, index+1, remain, dp);
+        return dp[index][remain]=min(taken, skipped);
+    }
+
+    int paintWalls(vector<int>& cost, vector<int>& time)
+    {
+        vector<vector<int>>dp(501, vector<int>(501, -1));
+
+        return solve(cost, time, 0, time.size(), dp);
+
+    }
+};
