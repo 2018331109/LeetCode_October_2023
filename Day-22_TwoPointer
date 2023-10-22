@@ -1,0 +1,60 @@
+1793. Maximum Score of a Good Subarray
+
+STATEMENT
+You are given an array of integers nums (0-indexed) and an integer k.
+The score of a subarray (i, j) is defined as min(nums[i], nums[i+1], ..., nums[j]) * (j - i + 1). 
+A good subarray is a subarray where i <= k <= j.
+Return the maximum possible score of a good subarray.
+
+SOOLUTION
+  C++
+  class Solution
+{
+public:
+    int maximumScore(vector<int>& nums, int k)
+    {
+        int n=nums.size();
+        int mx=nums[k];
+        int i=k-1;
+        int j=k+1;
+        int len=1;
+        int mn=mx;
+        int ans=mx;
+        while(i>=0 && j<n)
+        {
+            int a=nums[i], b=nums[j];
+            if(a>=b)
+            {
+                mn=min(mn, a);
+                i--;
+            }
+            else
+            {
+                mn=min(mn, b);
+                j++;
+                
+            }
+            len++;
+            ans=max(ans, len*mn);
+        }
+        
+        while(i>=0)
+        {
+            mn=min(mn, nums[i]);
+            len++;
+            ans=max(ans, len*mn);
+            i--;
+            
+        }
+        
+        while(j<n)
+        {
+            mn=min(mn, nums[j]);
+            len++;
+            ans=max(ans, len*mn);
+            j++;
+        }
+        return  ans;
+
+    }
+};
